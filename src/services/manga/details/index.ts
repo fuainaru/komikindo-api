@@ -2,7 +2,7 @@ import {
   Element,
   HTMLDocument,
 } from "https://deno.land/x/deno_dom@v0.1.35-alpha/deno-dom-wasm.ts";
-import { API_URL } from "../../../constats/index.ts";
+import { BASE_URL } from "../../../constants/index.ts";
 import parser from "../../../utils/parser.ts";
 
 const imagesDetails = (document: HTMLDocument) => {
@@ -35,7 +35,7 @@ const nextPrevChapter = (document: HTMLDocument) => {
     previous: "",
   };
   chapters.forEach((chapter) => {
-    const link = chapter.getAttribute("href")?.replace(API_URL, "");
+    const link = chapter.getAttribute("href")?.replace(BASE_URL, "");
     const rel = chapter.getAttribute("rel");
 
     if (rel === "next") {
@@ -50,7 +50,7 @@ const nextPrevChapter = (document: HTMLDocument) => {
 };
 
 export const mangaDetailsData = async (url: string) => {
-  const document = (await parser(API_URL + url)) as HTMLDocument;
+  const document = (await parser(BASE_URL + url)) as HTMLDocument;
 
   const title = titleDetails(document);
   const chapter = nextPrevChapter(document);
