@@ -2,14 +2,22 @@ import {
   Element,
   HTMLDocument,
 } from "https://deno.land/x/deno_dom@v0.1.35-alpha/deno-dom-wasm.ts";
-import { BASE_URL } from "../../../constants/index.ts";
+import { BASE_URL, QUERY_REGEX_URL } from "../../../constants/index.ts";
 import parser from "../../../utils/parser.ts";
+
+const TITLE = "Judul Alternatif: ";
+const STATUS = "Status: ";
+const AUTHOR = "Pengarang: ";
+const ILLUSTRATOR = "Ilustrator: ";
+const GRAPHIC = "Grafis: ";
+const GENRE = "Tema: ";
+const TYPE = "Jenis Komik: ";
+const READER = "Jumlah Pembaca: ";
 
 const chaptersImage = (document: HTMLDocument) => {
   const image = document.querySelector(".thumb > img");
-  const removeQueryRegex = /\?.*$/;
 
-  return image?.getAttribute("src")?.replace(removeQueryRegex, "");
+  return image?.getAttribute("src")?.replace(QUERY_REGEX_URL, "");
 };
 
 const chaptersSynopsis = (document: HTMLDocument) => {
@@ -18,16 +26,22 @@ const chaptersSynopsis = (document: HTMLDocument) => {
   return synopsis?.textContent.trim();
 };
 
-const chaptersDetails = (document: HTMLDocument) => {
-  const TITLE = "Judul Alternatif: ";
-  const STATUS = "Status: ";
-  const AUTHOR = "Pengarang: ";
-  const ILLUSTRATOR = "Ilustrator: ";
-  const GRAPHIC = "Grafis: ";
-  const GENRE = "Tema: ";
-  const TYPE = "Jenis Komik: ";
-  const READER = "Jumlah Pembaca: ";
+const chaptersSpoilers = (document: HTMLDocument) => {
+  const spoilers = document.querySelectorAll(
+    ".spoiler-img > img"
+  ) as unknown as Element[];
 
+  const spoilerImage: string[] = [];
+  spoilers.forEach((spoiler) => {
+    const data = spoiler.getAttribute("src")?.replace(QUERY_REGEX_URL, "");
+
+    spoilerImage.push(data as string);
+  });
+
+  return spoilerImage;
+};
+
+const chaptersDetails = (document: HTMLDocument) => {
   const chapters = document?.querySelectorAll(
     ".spe > span"
   ) as unknown as Element[];
@@ -109,12 +123,14 @@ export const mangaChaptersData = async (url: string) => {
 
   const details = chaptersDetails(document);
   const synopsis = chaptersSynopsis(document);
+  const spoilers = chaptersSpoilers(document);
   const chapter = chaptersList(document);
   const image = chaptersImage(document);
 
   return {
     chapter_details: details,
     synopsis: synopsis,
+    spoilers: spoilers,
     chapter_list: chapter,
     image: image,
   };
