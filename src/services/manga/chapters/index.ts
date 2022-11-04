@@ -5,7 +5,13 @@ import {
 import { API_URL } from "../../../constats/index.ts";
 import parser from "../../../utils/parser.ts";
 
-const chapterSynopsis = (document: HTMLDocument) => {
+const chaptersImage = (document: HTMLDocument) => {
+  const image = document.querySelector(".bigcover > img");
+
+  return image?.getAttribute("src");
+};
+
+const chaptersSynopsis = (document: HTMLDocument) => {
   const synopsis = document.querySelector(".entry-content-single > p");
 
   return synopsis?.textContent.trim();
@@ -65,11 +71,9 @@ export const mangaChaptersData = async (url: string) => {
   const document = (await parser(API_URL + url)) as HTMLDocument;
 
   const details = chaptersDetails(document);
-  const synopsis = chapterSynopsis(document);
+  const synopsis = chaptersSynopsis(document);
   const chapter = chaptersList(document);
-  const image = document
-    .querySelector(".thumb > img:nth-child(1)")
-    ?.getAttribute("src");
+  const image = chaptersImage(document);
 
   return {
     chapter_details: details,
