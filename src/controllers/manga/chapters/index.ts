@@ -1,5 +1,5 @@
-import { Context } from 'https://deno.land/x/oak@v11.1.0/mod.ts';
-import { mangaChaptersData } from '../../../services/manga/chapters/index.ts';
+import { Context } from "https://deno.land/x/oak@v11.1.0/mod.ts";
+import { mangaChaptersData } from "../../../services/manga/chapters/index.ts";
 
 export const mangaChapters = async (context: Context) => {
   const body = await context.request.body().value;
@@ -12,7 +12,7 @@ export const mangaChapters = async (context: Context) => {
     context.response.status = 200;
   } else {
     context.response.body = {
-      message: 'error',
+      message: "error",
     };
     context.response.status = 400;
   }
