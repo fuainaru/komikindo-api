@@ -17,17 +17,14 @@ const popularTheDay = (document: HTMLDocument) => {
     const chapter = popular.querySelector(".lsch > a");
     const date = popular.querySelector(".lsch > .datech");
     const url = popular.querySelector("a")?.getAttribute("href");
-    const image = popular
-      .querySelector("img")
-      ?.getAttribute("src")
-      ?.replace(QUERY_REGEX_URL, "");
+    const image = popular.querySelector("img")?.getAttribute("src");
 
     popularsList.push({
       title: title?.textContent || "",
       chapter: chapter?.textContent.replace("Ch. ", "") || "",
       date: date?.textContent || "",
       url: url?.replace(BASE_URL, "") || "",
-      image: image || "",
+      image: image?.replace(QUERY_REGEX_URL, "") || "",
     });
   });
 
