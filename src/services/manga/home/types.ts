@@ -1,7 +1,7 @@
-export interface PopularsList {
+export interface ComicsProps {
   title: string;
   chapter: string;
-  date: string;
+  date?: string;
   url: string;
   image: string;
 }
