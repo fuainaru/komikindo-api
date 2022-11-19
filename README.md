@@ -56,7 +56,7 @@ GET /manga/home
     }
 }
 ```
-### Details Chapter Comic
+### Chapter Comic
 #### Endpoint
 ```http
 POST /manga/chapters
